@@ -1,5 +1,8 @@
+@import '../styles/references';
+
 .container {
   padding: 0 2rem;
+  border: 10px solid $color-primary;
 }
 
 .main {
@@ -29,7 +32,7 @@
 }
 
 .title a {
-  color: #0070f3;
+  color: $color-primary;
   text-decoration: none;
 }
 
@@ -108,8 +111,8 @@
   margin-left: 0.5rem;
 }
 
-@media (max-width: 600px) {
-  .grid {
+.grid {
+  @include desktop() {
     width: 100%;
     flex-direction: column;
   }
