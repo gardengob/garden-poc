@@ -1,5 +1,6 @@
 import { Object3D, Vector3 } from 'three'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
+import { IPathable } from '../../Interfaces/IPathable'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
 
 export enum Component3dStateEnum {
@@ -8,8 +9,11 @@ export enum Component3dStateEnum {
   IDLE = 'IDLE',
 }
 
-export class Component3d implements IUpdatable {
-  root: Object3D
+export class Component3d implements IUpdatable, IPathable {
+  index: number
+  points: Vector3[] = []
+
+  root: Object3D = new Object3D()
   position: Vector3
 
   // Component States
@@ -23,6 +27,7 @@ export class Component3d implements IUpdatable {
     string,
     IObject3DWrapper
   >()
+
 
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
@@ -38,6 +43,21 @@ export class Component3d implements IUpdatable {
 
   //closure called on component3d's start
   onStart: ((component3d: Component3d) => void) | undefined
+
+  /**
+   * get a THREE.js object directly by it's Playlet's scene graph
+   * 
+   * @param name - the name of the wanted object
+   * 
+   * @public
+   */
+  getObjectFromGraph(modelName: string): Object3D {
+    try {
+      return this.root.getObjectByName(modelName)!;
+    } catch (error) {
+      throw Error('Model not available')
+    }
+  }
 
   update(ellapsedTime: number) {
     // this.interactionManager.update()
