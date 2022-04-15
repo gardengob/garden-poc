@@ -1,9 +1,11 @@
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
-import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/IComponent3d'
+import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
+import { TreeInitialization } from './Tree.initialization'
 
-const appManager = AppManager.getInstance()
 // const loadingManager = LoadingManager.getInstance()
 
 export const treeComponent3d = new Component3d()
 
 treeComponent3d.expectedObjects = ['']
+TreeInitialization(treeComponent3d)
+
