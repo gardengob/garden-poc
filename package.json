@@ -12,6 +12,7 @@
     "@supabase/supabase-js": "^1.33.3",
     "next": "12.1.4",
     "next-images": "^1.8.4",
+    "pagedjs": "^0.2.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "sass": "^1.49.11",
