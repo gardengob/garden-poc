@@ -5,7 +5,7 @@ import { TreeInitialization } from './Tree.initialization'
 // const loadingManager = LoadingManager.getInstance()
 
 export const treeComponent3d = new Component3d()
+treeComponent3d.root.position.set(2, 0, 2)
 
-treeComponent3d.expectedObjects = ['']
+treeComponent3d.expectedObjects = []
 TreeInitialization(treeComponent3d)
-

@@ -225,8 +225,8 @@ export class AppManager {
         this.renderer.render(this.scene, this.devCamera)
         this.devControls.update()
       } else {
-        //this.composer.render()
-        //this.renderer.render(this.scene, this.camera);
+        this.composer.render()
+        this.renderer.render(this.scene, this.camera)
       }
     }
   }
