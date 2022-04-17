@@ -1,7 +1,9 @@
-import { Object3D, Vector3 } from 'three'
+import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Vector3 } from 'three'
+import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
 import { IPathable } from '../../Interfaces/IPathable'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
+import { GLTFObject } from '../GLTFObject/GLTFObject'
 
 export enum Component3dStateEnum {
   ONGOING = 'ONGOING',
@@ -28,7 +30,6 @@ export class Component3d implements IUpdatable, IPathable {
     IObject3DWrapper
   >()
 
-
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
 
@@ -46,17 +47,43 @@ export class Component3d implements IUpdatable, IPathable {
 
   /**
    * get a THREE.js object directly by it's Playlet's scene graph
-   * 
+   *
    * @param name - the name of the wanted object
-   * 
+   *
    * @public
    */
   getObjectFromGraph(modelName: string): Object3D {
     try {
-      return this.root.getObjectByName(modelName)!;
+      return this.root.getObjectByName(modelName)!
     } catch (error) {
       throw Error('Model not available')
     }
+  }
+
+  getObject(modelName: string): IObject3DWrapper {
+    try {
+      return this.loadedSceneObjects.get(modelName)!
+    } catch (error) {
+      throw Error('Model not available')
+    }
+  }
+
+  /**
+   * add all needed loaded GLTF to the scene loaded objects array,
+   * if the name of a gltf is included in the playlet's expectedObjects, it will be added to the playlet's loadedObjects
+   *
+   * @param gltfSourceMap - a Map of named GLTF
+   *
+   * @public
+   */
+  assignLoadedSceneObjects(gltfSourceMap: Map<string, GLTF>): void {
+    this.expectedObjects.forEach((expectedObjectName) => {
+      const object = gltfSourceMap.get(expectedObjectName)
+      if (object) {
+        let newModelObject = new GLTFObject(expectedObjectName, object)
+        this.loadedSceneObjects.set(expectedObjectName, newModelObject)
+      }
+    })
   }
 
   update(ellapsedTime: number) {
@@ -69,6 +96,19 @@ export class Component3d implements IUpdatable, IPathable {
       if (this.onGlobalAnimationLoop) {
         this.onGlobalAnimationLoop(ellapsedTime, this)
       }
+    }
+  }
+
+  buildPoints() {
+    for (let i = 0; i < this.points.length; i++) {
+      const point = this.points[i]
+      const cubeGeometery = new BoxGeometry(0.1, 0.1, 0.1)
+      const cubeMaterial = new MeshBasicMaterial({ color: 0xffff00 })
+
+      const cube = new Mesh(cubeGeometery, cubeMaterial)
+      cube.position.set(point.x, point.y, point.z)
+      cube.name = 'pathPoint'
+      this.root.add(cube)
     }
   }
 

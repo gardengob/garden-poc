@@ -6,8 +6,12 @@ import { vegetableGardenComponent3d } from '../../webGL/components3d/VegetableGa
 import { AppManager } from '../../webGL/webGLArchitecture/Classes/AppManager/AppManager'
 import { Scene } from '../../webGL/webGLArchitecture/Classes/Scene/Scene'
 import { AppStateEnum } from '../../webGL/webGLArchitecture/Enums/AppStateEnum'
+import modelsToLoad from '../../../public/datas/modelsLocation.json'
 
 import css from './Garden3d.module.scss'
+import { LoadingManager } from '../../webGL/webGLArchitecture/Classes/LoadingManager/LoadingManager'
+import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
+import { gardenScene } from '../../webGL/components3d/GardenScene/GardenScene'
 
 export interface IWindowSize {
   width: number
@@ -16,11 +20,25 @@ export interface IWindowSize {
 
 export default function Garden3d() {
   const canvasRef = useRef(null)
-  const [windowSize, setWindowSize] = useState<IWindowSize>({width: 0, height: 0})
+  const [windowSize, setWindowSize] = useState<IWindowSize>({
+    width: 0,
+    height: 0,
+  })
 
   useEffect(() => {
-    
+    const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
+
+    modelsToLoad.forEach((model) => {
+      loadingManager.modelsToLoad.set(model.name, model.path)
+    })
+
+    loadingManager.loadAllModels(
+      onLoadErrorFunction,
+      onLoadingFunction,
+      onAllLoadedFunction,
+      onModelLoadedFunction
+    )
 
     window.addEventListener('resize', resizeCanvas)
 
@@ -42,24 +60,17 @@ export default function Garden3d() {
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-    appManager.appState = AppStateEnum.INITIALIZING
-
     appManager.devMode = true
 
     //déso j'en ai eu marre
     resizeCanvas()
     resizeCanvas()
 
-    const gardenScene = new Scene()
-
-    gardenScene.components.push(treeComponent3d)
-    gardenScene.components.push(vegetableGardenComponent3d)
-
-    treeComponent3d.root.position.set(2,0,2)
-    vegetableGardenComponent3d.root.position.set(-2,0,2)
-
-    appManager.scene.add(treeComponent3d.root)
-    appManager.scene.add(vegetableGardenComponent3d.root)
+    appManager.appInitializationFunction = () => {
+      console.log('appInit called')
+      gardenScene.init()
+      appManager.scene.add(gardenScene.sceneBase)
+    }
 
     render()
   }, [])
@@ -87,6 +98,18 @@ export default function Garden3d() {
     appManager.canvas.height = appManager.canvas.offsetHeight
 
     appManager.onWindowResize()
+  }
+
+  function onLoadErrorFunction(error: ErrorEvent): void {}
+  function onModelLoadedFunction(gltf: GLTF, loadingPercent: number): void {}
+  function onAllLoadedFunction(): void {
+    const appManager = AppManager.getInstance()
+
+    appManager.appState = AppStateEnum.INITIALIZING
+    console.log('all model loaded')
+  }
+  function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
+    console.log(Math.round((xhr.loaded * 100) / xhr.total))
   }
 
   return (
