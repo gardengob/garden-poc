@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import * as THREE from 'three'
 import { treeComponent3d } from '../../webGL/components3d/Tree/Tree.main'
-import { vegetableGardenComponent3d } from '../../webGL/components3d/VegetableGarden/VegetalGarden.main'
+import { vegetableGardenComponent3d } from '../../webGL/components3d/VegetableGarden/VegetableGarden.main'
 import { AppManager } from '../../webGL/webGLArchitecture/Classes/AppManager/AppManager'
 import { Scene } from '../../webGL/webGLArchitecture/Classes/Scene/Scene'
 import { AppStateEnum } from '../../webGL/webGLArchitecture/Enums/AppStateEnum'
@@ -60,7 +60,7 @@ export default function Garden3d() {
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-    appManager.devMode = true
+    appManager.devMode = false
 
     //déso j'en ai eu marre
     resizeCanvas()
@@ -70,6 +70,7 @@ export default function Garden3d() {
       console.log('appInit called')
       gardenScene.init()
       appManager.scene.add(gardenScene.sceneBase)
+      appManager.objectsToUpdate.push(gardenScene)
     }
 
     render()
