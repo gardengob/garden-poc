@@ -83,7 +83,7 @@ export class AppManager {
     this.scene.add(cameraHolder)
     this.cameraHolder = cameraHolder
 
-    this.camera.position.z = 10
+    // this.camera.position.z = 10
 
     this.devControls = new OrbitControls(this.devCamera, this.canvas)
     this.devControls.enableDamping = true
@@ -186,7 +186,7 @@ export class AppManager {
   buildCamera(): PerspectiveCamera {
     const aspectRatio = this.canvas.width / this.canvas.height
     const fieldOfView = 45
-    const nearPlane = 1
+    const nearPlane = 0.1
     const farPlane = 1000
     const camera = new PerspectiveCamera(
       fieldOfView,

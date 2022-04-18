@@ -99,18 +99,38 @@ export class Component3d implements IUpdatable, IPathable {
     }
   }
 
-  buildPoints() {
-    for (let i = 0; i < this.points.length; i++) {
-      const point = this.points[i]
-      const cubeGeometery = new BoxGeometry(0.1, 0.1, 0.1)
-      const cubeMaterial = new MeshBasicMaterial({ color: 0xffff00 })
-
-      const cube = new Mesh(cubeGeometery, cubeMaterial)
-      cube.position.set(point.x, point.y, point.z)
-      cube.name = 'pathPoint'
-      this.root.add(cube)
-    }
+  getPoints(): Object3D[] {
+    const camPoints = []
+    this.root.traverse((obj) => {
+      if (
+        obj.name.includes('cameraPathPoint') ||
+        obj.name.includes('entryPoint')
+      ) {
+        camPoints.push(obj)
+      }
+    })
+    return camPoints
   }
+  // buildPoints(): Object3D[] {
+  //   const camPointsObjectArray: Object3D[] = []
+  //   for (let i = 0; i < this.points.length; i++) {
+  //     const point = this.points[i]
+  //     const cubeGeometery = new BoxGeometry(0.1, 0.1, 0.1)
+  //     const cubeMaterial = new MeshBasicMaterial({ color: 0xffff00 })
+
+  //     const cube = new Mesh(cubeGeometery, cubeMaterial)
+  //     cube.name = 'pathPoint-' + i
+  //     this.root.add(cube)
+  //     cube.position.set(
+  //       this.root.position.x + point.x,
+  //       this.root.position.y + point.y,
+  //       this.root.position.z + point.z
+  //     )
+
+  //     camPointsObjectArray.push(cube)
+  //   }
+  //   return camPointsObjectArray
+  // }
 
   toGlobalView(): void {
     this.status = Component3dStateEnum.GLOBAL_ONGOING
