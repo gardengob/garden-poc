@@ -15,7 +15,7 @@ export function VegetableGardenGraphConstruction(compoment3d: Component3d) {
   point1.position.set(1, 0, 2)
 
   const point2 = new Object3D()
-  point2.name = 'vegetableGarden_cameraPathPoint_2'
+  point2.name = 'vegetableGarden_entryPoint_2'
   point2.position.set(0, 0, 2)
 
   const point3 = new Object3D()

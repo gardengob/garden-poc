@@ -6,6 +6,7 @@ export class Scene implements IUpdatable {
   sceneBase: Object3D = new Object3D()
   components: Component3d[] = []
   cameraPath: CatmullRomCurve3
+  entryPoints: { object: Object3D; component: Component3d }[] = []
 
   onAnimationLoop: (ellapsedTime) => void
 
@@ -59,6 +60,15 @@ export class Scene implements IUpdatable {
         camPoints.push(obj)
       }
     })
+
+    for (let i = 0; i < this.components.length; i++) {
+      const element = this.components[i]
+      element.root.traverse((obj) => {
+        if (obj.name.includes('entryPoint')) {
+          this.entryPoints.push({ object: obj, component: element })
+        }
+      })
+    }
     return camPoints
   }
 }

@@ -27,7 +27,7 @@ export function KitchenGraphConstruction(compoment3d: Component3d) {
   point2.position.set(-2, 0, 2)
 
   const point3 = new Object3D()
-  point3.name = 'kitchen_cameraPathPoint_3'
+  point3.name = 'kitchen_entryPoint_3'
   point3.position.set(-2, 0, -1)
 
   const point4 = new Object3D()
