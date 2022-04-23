@@ -41,6 +41,7 @@ gardenScene.sceneBase.add(plane)
 
 gardenScene.onInit = (scene) => {
   const pointsObjects = gardenScene.getPoints()
+  console.log('aaaaaa', gardenScene.entryPoints)
   console.log(pointsObjects)
 
   const gardenPoints = pointsObjects.map((point: Object3D) => {
@@ -78,6 +79,8 @@ document.addEventListener('mousewheel', (e: WheelEvent) => {
     console.log("Haven't scrolled in 250ms")
   }, 250)
 })
+let closeElement = null
+
 gardenScene.onAnimationLoop = (ellapsedTime) => {
   if (scrolling < -0.1 || scrolling > 0.1) {
     if (scrolling > 0) {
@@ -86,7 +89,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     if (scrolling < 0) {
       scrolling += 0.01
     }
-    console.log('scrolling', scrolling)
+
     const appManager = AppManager.getInstance()
     if (camPosIndex.y + step > 0 && camPosIndex.y + step < 10000) {
       camPosIndex.y += step * Math.abs(scrolling)
@@ -94,6 +97,38 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
 
     if (camPosIndex.y + step > 10000) {
       camPosIndex.y = 0
+    }
+
+    if (1) {
+      let notCloseToAnyThing = true
+      for (let i = 0; i < gardenScene.entryPoints.length; i++) {
+        const element = gardenScene.entryPoints[i]
+
+        const worldElementPosition = new Vector3()
+        element.object.getWorldPosition(worldElementPosition)
+
+        const worldCameraPosition = new Vector3()
+        appManager.camera.getWorldPosition(worldCameraPosition)
+
+        if (
+          worldElementPosition.x > worldCameraPosition.x - 1 &&
+          worldElementPosition.x < worldCameraPosition.x + 1 &&
+          worldElementPosition.y > worldCameraPosition.y - 1 &&
+          worldElementPosition.y < worldCameraPosition.y + 1 &&
+          worldElementPosition.z > worldCameraPosition.z - 1 &&
+          worldElementPosition.z < worldCameraPosition.z + 1
+        ) {
+          if (element.component != closeElement) {
+            closeElement = element.component
+            notCloseToAnyThing = false
+            console.log('pas loin de ', element)
+            //ACTION : in front of element
+          }
+        }
+      }
+      if (notCloseToAnyThing) {
+        //ACTION : not front of element
+      }
     }
 
     const curve = gardenScene.cameraPath
