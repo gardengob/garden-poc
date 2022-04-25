@@ -40,9 +40,8 @@ plane.position.y = -0.5
 gardenScene.sceneBase.add(plane)
 
 gardenScene.onInit = (scene) => {
+  const appManager = AppManager.getInstance()
   const pointsObjects = gardenScene.getPoints()
-  console.log('aaaaaa', gardenScene.entryPoints)
-  console.log(pointsObjects)
 
   const gardenPoints = pointsObjects.map((point: Object3D) => {
     let worldVector: Vector3 = new Vector3()
@@ -59,6 +58,8 @@ gardenScene.onInit = (scene) => {
   const curveObject = new Line(curveGeometry, curveMaterial)
   gardenScene.sceneBase.add(curveObject)
   scene.cameraPath = curve
+  const curveStart = scene.cameraPath.getPoint(0)
+  appManager.cameraHolder.position.set(curveStart.x, curveStart.y, curveStart.z)
 }
 //a changer en debugpoints() qui ajouteai juste le material
 
@@ -72,7 +73,7 @@ var _scrollTimeout = null
 document.addEventListener('mousewheel', (e: WheelEvent) => {
   const direction = e.deltaY > 0 ? 1 : -1
   scrolling = direction
-  step = (direction * e.y) / 90
+  step = (direction * e.y) / 450
 
   clearTimeout(_scrollTimeout)
   _scrollTimeout = setTimeout(function () {
@@ -82,6 +83,7 @@ document.addEventListener('mousewheel', (e: WheelEvent) => {
 let closeElement = null
 
 gardenScene.onAnimationLoop = (ellapsedTime) => {
+  let timedStep = step * ellapsedTime
   if (scrolling < -0.1 || scrolling > 0.1) {
     if (scrolling > 0) {
       scrolling -= 0.01
@@ -91,11 +93,11 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     }
 
     const appManager = AppManager.getInstance()
-    if (camPosIndex.y + step > 0 && camPosIndex.y + step < 10000) {
-      camPosIndex.y += step * Math.abs(scrolling)
+    if (camPosIndex.y + timedStep > 0 && camPosIndex.y + timedStep < 10000) {
+      camPosIndex.y += timedStep * Math.abs(scrolling)
     }
 
-    if (camPosIndex.y + step > 10000) {
+    if (camPosIndex.y + timedStep > 10000) {
       camPosIndex.y = 0
     }
 
