@@ -20,6 +20,7 @@ export interface IWindowSize {
 
 export default function Garden3d() {
   const canvasRef = useRef(null)
+  let time = Date.now()
   const [windowSize, setWindowSize] = useState<IWindowSize>({
     width: 0,
     height: 0,
@@ -77,14 +78,17 @@ export default function Garden3d() {
   }, [])
 
   function render() {
+    const currentTime = Date.now()
+    const deltaTime = currentTime - time
+    time = currentTime
     const appManager = AppManager.getInstance()
-    requestAnimationFrame(render)
     // stats.begin()
-    const elapsedTime = appManager.clock.getElapsedTime()
-    const deltaTime = elapsedTime - appManager.oldElapsedTime
-    appManager.oldElapsedTime = elapsedTime
+    // const elapsedTime = appManager.clock.getElapsedTime()
+    // const deltaTime = elapsedTime - appManager.oldElapsedTime
+    // appManager.oldElapsedTime = elapsedTime
 
-    appManager.update(elapsedTime)
+    appManager.update(deltaTime)
+    requestAnimationFrame(render)
 
     // stats.end()
   }
