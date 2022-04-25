@@ -4,12 +4,13 @@ import Avatar from "../avatar/Avatar"
 
 export default function Account({ session }) {
 	const [loading, setLoading] = useState(true)
+	const [user, setUser] = useState(null)
 	const [username, setUsername] = useState(null)
-	const [website, setWebsite] = useState(null)
 	const [avatar_url, setAvatarUrl] = useState(null)
 
 	useEffect(() => {
 		getProfile()
+		getUserFamilies()
 	}, [session])
 
 	async function getProfile() {
@@ -18,8 +19,8 @@ export default function Account({ session }) {
 			const user = supabase.auth.user()
 
 			let { data, error, status } = await supabase
-				.from("profiles")
-				.select(`username, website, avatar_url`)
+				.from("user")
+				.select(`username, avatar_url`)
 				.eq("id", user.id)
 				.single()
 
@@ -28,8 +29,8 @@ export default function Account({ session }) {
 			}
 
 			if (data) {
+				setUser(data)
 				setUsername(data.username)
-				setWebsite(data.website)
 				setAvatarUrl(data.avatar_url)
 			}
 		} catch (error) {
@@ -39,7 +40,54 @@ export default function Account({ session }) {
 		}
 	}
 
-	async function updateProfile({ username, website, avatar_url }) {
+	async function getFamilies() {
+		try {
+			setLoading(true)
+
+			let { data, error, status } = await supabase
+				.from("family")
+				.select(`name`)
+
+			if (error && status !== 406) {
+				throw error
+			}
+
+			if (data) {
+				console.log(data)
+			}
+		} catch (error) {
+			alert(error.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	async function getUserFamilies() {
+		try {
+			setLoading(true)
+
+			const user = supabase.auth.user()
+
+			let { data, error, status } = await supabase
+				.from("user_family")
+				.select(`family:family_id (name)`)
+				.eq("user_id", user.id)
+
+			if (error && status !== 406) {
+				throw error
+			}
+
+			if (data) {
+				console.log(data)
+			}
+		} catch (error) {
+			alert(error.message)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	async function updateProfile({ username, avatar_url }) {
 		try {
 			setLoading(true)
 			const user = supabase.auth.user()
@@ -47,12 +95,11 @@ export default function Account({ session }) {
 			const updates = {
 				id: user.id,
 				username,
-				website,
 				avatar_url,
 				updated_at: new Date(),
 			}
 
-			let { error } = await supabase.from("profiles").upsert(updates, {
+			let { error } = await supabase.from("user").upsert(updates, {
 				returning: "minimal", // Don't return the value after inserting
 			})
 
@@ -73,7 +120,7 @@ export default function Account({ session }) {
 				size={150}
 				onUpload={(url) => {
 					setAvatarUrl(url)
-					updateProfile({ username, website, avatar_url: url })
+					updateProfile({ username, avatar_url: url })
 				}}
 			/>
 			<div>
@@ -89,20 +136,11 @@ export default function Account({ session }) {
 					onChange={(e) => setUsername(e.target.value)}
 				/>
 			</div>
-			<div>
-				<label htmlFor="website">Website</label>
-				<input
-					id="website"
-					type="website"
-					value={website || ""}
-					onChange={(e) => setWebsite(e.target.value)}
-				/>
-			</div>
 
 			<div>
 				<button
 					className="button block primary"
-					onClick={() => updateProfile({ username, website, avatar_url })}
+					onClick={() => updateProfile({ username, avatar_url })}
 					disabled={loading}
 				>
 					{loading ? "Loading ..." : "Update"}

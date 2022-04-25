@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     setSession(supabase.auth.session())
-
+    
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
