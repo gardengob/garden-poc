@@ -119,6 +119,14 @@ export default function Garden3d() {
 
   return (
     <div className={css.webgl}>
+      <button
+        onClick={() => {
+          AppManager.getInstance().devMode = !AppManager.getInstance().devMode
+        }}
+        style={{ position: 'absolute' }}
+      >
+        devMode
+      </button>
       <canvas className={css.canvas} ref={canvasRef} id="canvas" />
     </div>
   )
