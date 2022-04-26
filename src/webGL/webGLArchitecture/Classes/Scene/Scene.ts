@@ -90,7 +90,7 @@ export class Scene implements IUpdatable {
     this.sceneBase.traverse((obj) => {
       if (
         obj.name.includes('cameraPathPoint') ||
-        obj.name.includes('entryPoint')
+        obj.name.includes('entryPersoPoint')
       ) {
         camPoints.push(obj)
       }
@@ -99,7 +99,7 @@ export class Scene implements IUpdatable {
     for (let i = 0; i < this.components.length; i++) {
       const element = this.components[i]
       element.root.traverse((obj) => {
-        if (obj.name.includes('entryPoint')) {
+        if (obj.name.includes('entryPersoPoint')) {
           this.entryPoints.push({ object: obj, component: element })
         }
       })

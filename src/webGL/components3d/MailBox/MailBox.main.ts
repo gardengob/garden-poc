@@ -9,7 +9,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const mailboxComponent3d = new Component3d()
 mailboxComponent3d.name = 'mail_box'
-mailboxComponent3d.index = 4
+mailboxComponent3d.index = 1
 mailboxComponent3d.expectedObjects = ['boitemail_space']
 
 mailboxComponent3d.onInit = () => {

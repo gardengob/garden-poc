@@ -46,11 +46,11 @@ export default function Garden3d() {
     const scene = new THREE.Scene()
 
     // Object
-    const geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-    const mesh = new THREE.Mesh(geometry, material)
+    // const geometry = new THREE.BoxGeometry(1, 1, 1)
+    // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    // const mesh = new THREE.Mesh(geometry, material)
 
-    appManager.scene.add(mesh)
+    // appManager.scene.add(mesh)
     appManager.canvas = canvasRef.current
 
     const axesHelper = new THREE.AxesHelper(5)

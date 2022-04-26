@@ -24,7 +24,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const contestComponent3d = new Component3d()
 contestComponent3d.root.position.set(-2, 0, -2)
-contestComponent3d.index = 3
+contestComponent3d.index = 6
 contestComponent3d.expectedObjects = ['table_space']
 
 contestComponent3d.onInit = () => {
