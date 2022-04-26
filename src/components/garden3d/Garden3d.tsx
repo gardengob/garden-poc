@@ -61,7 +61,7 @@ export default function Garden3d() {
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-    appManager.devMode = false
+    appManager.devMode = true
 
     //déso j'en ai eu marre
     resizeCanvas()

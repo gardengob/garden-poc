@@ -33,9 +33,9 @@ export function MailBoxGraphConstruction(compoment3d: Component3d) {
   const point3 = new Object3D()
   point3.name = 'mailbox_cameraPathPoint_3'
   point3.position.set(-3, 0, 1)
-  compoment3d.root.add(cube)
+  // compoment3d.root.add(cube)
 
-  compoment3d.root.add(point1)
-  compoment3d.root.add(point2)
-  compoment3d.root.add(point3)
+  // compoment3d.root.add(point1)
+  // compoment3d.root.add(point2)
+  // compoment3d.root.add(point3)
 }

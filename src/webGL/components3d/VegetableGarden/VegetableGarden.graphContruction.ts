@@ -21,11 +21,11 @@ export function VegetableGardenGraphConstruction(compoment3d: Component3d) {
   const point3 = new Object3D()
   point3.name = 'vegetableGarden_cameraPathPoint_3'
   point3.position.set(-2, 0, 1)
-  compoment3d.root.add(cube)
+  // compoment3d.root.add(cube)
 
-  compoment3d.root.add(point1)
-  compoment3d.root.add(point2)
-  compoment3d.root.add(point3)
+  // compoment3d.root.add(point1)
+  // compoment3d.root.add(point2)
+  // compoment3d.root.add(point3)
 
   compoment3d.points = [point1.position, point2.position, point3.position]
 }

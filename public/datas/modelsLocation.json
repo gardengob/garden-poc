@@ -1,6 +1,22 @@
 [
   {
-    "name": "pocHouse",
-    "path": "https://garden-gob.adrienguedes.fr/3dModels/casa4.glb"
+    "name": "garden_base",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/base.glb"
+  },
+  {
+    "name": "boitemail_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/boitemail_space.glb"
+  },
+  {
+    "name": "potager_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/potager_space.glb"
+  },
+  {
+    "name": "table_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/table_space.glb"
+  },
+  {
+    "name": "memories_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/memories_space.glb"
   }
 ]

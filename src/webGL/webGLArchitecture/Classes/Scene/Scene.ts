@@ -1,12 +1,21 @@
 import { CatmullRomCurve3, Object3D, Vector3 } from 'three'
+import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
 import { Component3d } from '../Compoment3d/Component3d'
+import { GLTFObject } from '../GLTFObject/GLTFObject'
+import { Geometry, GLTF } from 'three-stdlib'
 
 export class Scene implements IUpdatable {
   sceneBase: Object3D = new Object3D()
   components: Component3d[] = []
   cameraPath: CatmullRomCurve3
   entryPoints: { object: Object3D; component: Component3d }[] = []
+  // Component3d objects
+  expectedObjects: string[] = []
+  loadedSceneObjects: Map<string, IObject3DWrapper> = new Map<
+    string,
+    IObject3DWrapper
+  >()
 
   onAnimationLoop: (ellapsedTime) => void
 
@@ -27,6 +36,32 @@ export class Scene implements IUpdatable {
       this.sceneBase.add(component3d.root)
     }
     this.onInit(this)
+  }
+
+  getObject(modelName: string): IObject3DWrapper {
+    try {
+      return this.loadedSceneObjects.get(modelName)!
+    } catch (error) {
+      throw Error('Model not available')
+    }
+  }
+
+  /**
+   * add all needed loaded GLTF to the scene loaded objects array,
+   * if the name of a gltf is included in the playlet's expectedObjects, it will be added to the playlet's loadedObjects
+   *
+   * @param gltfSourceMap - a Map of named GLTF
+   *
+   * @public
+   */
+  assignLoadedSceneObjects(gltfSourceMap: Map<string, GLTF>): void {
+    this.expectedObjects.forEach((expectedObjectName) => {
+      const object = gltfSourceMap.get(expectedObjectName)
+      if (object) {
+        let newModelObject = new GLTFObject(expectedObjectName, object)
+        this.loadedSceneObjects.set(expectedObjectName, newModelObject)
+      }
+    })
   }
 
   update(elapsedTime: number): void {

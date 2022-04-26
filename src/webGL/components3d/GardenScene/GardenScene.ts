@@ -20,13 +20,23 @@ import { mailboxComponent3d } from '../MailBox/MailBox.main'
 import { treeComponent3d } from '../Tree/Tree.main'
 import { vegetableGardenComponent3d } from '../VegetableGarden/VegetableGarden.main'
 import gsap from 'gsap/all'
+import { contestComponent3d } from '../Contest/Contest.main'
+import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
+import { Geometry, GLTF } from 'three-stdlib'
+import { memoryComponent3d } from '../MemoriesScene/Memory.main'
+import { MaterialHelper } from '../../webGLArchitecture/Utils/MaterialHelper'
 
 export const gardenScene = new Scene()
+const loadingManager = LoadingManager.getInstance()
+
+gardenScene.expectedObjects = ['garden_base']
 
 gardenScene.components.push(vegetableGardenComponent3d)
 gardenScene.components.push(treeComponent3d)
 gardenScene.components.push(kitchenComponent3d)
 gardenScene.components.push(mailboxComponent3d)
+gardenScene.components.push(contestComponent3d)
+gardenScene.components.push(memoryComponent3d)
 
 //scene plan
 const geometry = new PlaneGeometry(10, 10)
@@ -40,6 +50,20 @@ plane.position.y = -0.5
 gardenScene.sceneBase.add(plane)
 
 gardenScene.onInit = (scene) => {
+  const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
+    gardenScene.expectedObjects
+  )
+
+  gardenScene.assignLoadedSceneObjects(gltfMap)
+
+  MaterialHelper.disableLights(gardenScene.sceneBase)
+
+  scene.assignLoadedSceneObjects(gltfMap)
+  const pocHouse = scene.getObject('garden_base')
+
+  scene.sceneBase.add(pocHouse.getModel())
+  scene.sceneBase.position.set(-2, 0, 2)
+
   const appManager = AppManager.getInstance()
   const pointsObjects = gardenScene.getPoints()
 
@@ -138,7 +162,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     var camRot = curve.getTangentAt(camPosIndex.y / 10000)
     appManager.cameraHolder.position.set(camPos.x, camPos.y, camPos.z)
 
-    const target = new Vector3(-camRot.z, camRot.y, camRot.x)
+    const target = new Vector3(camRot.z, camRot.y, -camRot.x)
 
     appManager.camera.lookAt(target.add(camPos))
   } else {
