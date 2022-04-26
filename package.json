@@ -9,6 +9,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@solid-js/signal": "^1.0.2",
     "@supabase/supabase-js": "^1.33.3",
     "next": "12.1.4",
     "next-images": "^1.8.4",
