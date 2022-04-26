@@ -18,5 +18,13 @@
   {
     "name": "memories_space",
     "path": "https://garden-gob.adrienguedes.fr/3dModels/memories_space.glb"
+  },
+  {
+    "name": "kitchen_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/kitchen_space.glb"
+  },
+  {
+    "name": "tree_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/tree_space.glb"
   }
 ]

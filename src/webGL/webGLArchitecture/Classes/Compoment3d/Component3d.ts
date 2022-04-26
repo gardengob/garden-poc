@@ -3,6 +3,7 @@ import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
 import { IPathable } from '../../Interfaces/IPathable'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
+import { Component3dName } from '../../Types/Component3dNameType'
 import { GLTFObject } from '../GLTFObject/GLTFObject'
 
 export enum Component3dStateEnum {
@@ -14,6 +15,7 @@ export enum Component3dStateEnum {
 export class Component3d implements IUpdatable, IPathable {
   index: number
   points: Vector3[] = []
+  name: Component3dName
 
   root: Object3D = new Object3D()
   position: Vector3

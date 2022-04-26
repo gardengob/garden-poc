@@ -24,6 +24,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const memoryComponent3d = new Component3d()
 memoryComponent3d.index = 3
+memoryComponent3d.name = 'memories'
 memoryComponent3d.expectedObjects = ['memories_space']
 
 memoryComponent3d.onInit = () => {
@@ -37,7 +38,7 @@ memoryComponent3d.onInit = () => {
   const light = new AmbientLight(0x404040) // soft white light
   memoryComponent3d.root.add(light)
   memoryComponent3d.root.add(pocHouse.getModel())
-  memoryComponent3d.root.position.set(-20, 0, -20)
+  memoryComponent3d.root.position.set(7, 0, -2)
   console.log('cegetableGardenComponent initialized')
   MemoryGraphConstruction(memoryComponent3d)
   MemoryInitialization(memoryComponent3d)

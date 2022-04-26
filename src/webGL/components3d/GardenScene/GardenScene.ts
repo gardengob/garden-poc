@@ -12,6 +12,8 @@ import {
   Object3D,
   ArrowHelper,
   BoxGeometry,
+  MeshStandardMaterial,
+  BackSide,
 } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Scene } from '../../webGLArchitecture/Classes/Scene/Scene'
@@ -25,6 +27,7 @@ import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/L
 import { Geometry, GLTF } from 'three-stdlib'
 import { memoryComponent3d } from '../MemoriesScene/Memory.main'
 import { MaterialHelper } from '../../webGLArchitecture/Utils/MaterialHelper'
+import SpaceEntryService from '../../../services/events/SpaceEntryService'
 
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
@@ -39,15 +42,15 @@ gardenScene.components.push(contestComponent3d)
 gardenScene.components.push(memoryComponent3d)
 
 //scene plan
-const geometry = new PlaneGeometry(10, 10)
-const material = new MeshBasicMaterial({
-  color: 0x50aa22,
-  side: DoubleSide,
-})
-const plane = new Mesh(geometry, material)
-plane.rotateX(Math.PI / 2)
-plane.position.y = -0.5
-gardenScene.sceneBase.add(plane)
+// const geometry = new PlaneGeometry(10, 10)
+// const material = new MeshBasicMaterial({
+//   color: 0x50aa22,
+//   side: DoubleSide,
+// })
+// const plane = new Mesh(geometry, material)
+// plane.rotateX(Math.PI / 2)
+// plane.position.y = -0.5
+// gardenScene.sceneBase.add(plane)
 
 gardenScene.onInit = (scene) => {
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
@@ -59,10 +62,21 @@ gardenScene.onInit = (scene) => {
   MaterialHelper.disableLights(gardenScene.sceneBase)
 
   scene.assignLoadedSceneObjects(gltfMap)
-  const pocHouse = scene.getObject('garden_base')
+  const gardenBase = scene.getObject('garden_base')
 
-  scene.sceneBase.add(pocHouse.getModel())
-  scene.sceneBase.position.set(-2, 0, 2)
+  const gardenBaseModel = gardenBase.getModel()
+
+  gardenBaseModel.position.set(-15, 0, 0)
+  scene.sceneBase.add(gardenBaseModel)
+  scene.sceneBase.position.set(0, 0, 0)
+
+  //background
+  const skyCubegeometry = new BoxGeometry(100, 100, 100)
+  const skyCubeMaterial = new MeshStandardMaterial({ color: '#00ced1' })
+  skyCubeMaterial.side = BackSide
+  const skyCube = new Mesh(skyCubegeometry, skyCubeMaterial)
+
+  gardenScene.sceneBase.add(skyCube)
 
   const appManager = AppManager.getInstance()
   const pointsObjects = gardenScene.getPoints()
@@ -148,6 +162,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
             closeElement = element.component
             notCloseToAnyThing = false
             console.log('pas loin de ', element)
+            SpaceEntryService.setNearElement(element.component.name)
             //ACTION : in front of element
           }
         }
