@@ -52,6 +52,22 @@ gardenScene.components.push(memoryComponent3d)
 // plane.position.y = -0.5
 // gardenScene.sceneBase.add(plane)
 
+const targetCurve = new CatmullRomCurve3([
+  new Vector3(-4, 1, 10),
+  new Vector3(-4, 1, 0),
+  new Vector3(0, 1, -10),
+  new Vector3(6, 1, -2),
+])
+
+targetCurve.closed = true
+
+const targetPoints = targetCurve.getPoints(500)
+const curveTargetGeometry = new BufferGeometry().setFromPoints(targetPoints)
+
+const targetCurveMaterial = new LineBasicMaterial({ color: 0xfa00fa })
+const targetCurveObject = new Line(curveTargetGeometry, targetCurveMaterial)
+gardenScene.sceneBase.add(targetCurveObject)
+
 gardenScene.onInit = (scene) => {
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     gardenScene.expectedObjects
@@ -86,6 +102,7 @@ gardenScene.onInit = (scene) => {
     point.getWorldPosition(worldVector)
     return worldVector
   })
+
   //Create a closed wavey loop
   const curve = new CatmullRomCurve3(gardenPoints)
 
@@ -173,13 +190,15 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     }
 
     const curve = gardenScene.cameraPath
-    var camPos = curve.getPointAt(camPosIndex.y / 10000)
-    var camRot = curve.getTangentAt(camPosIndex.y / 10000)
+    const camPos = curve.getPointAt(camPosIndex.y / 10000)
+    const camRot = curve.getTangentAt(camPosIndex.y / 10000)
+    const camTarget = targetCurve.getPointAt(camPosIndex.y / 15000)
+
     appManager.cameraHolder.position.set(camPos.x, camPos.y, camPos.z)
 
     const target = new Vector3(camRot.z, camRot.y, -camRot.x)
 
-    appManager.camera.lookAt(target.add(camPos))
+    appManager.camera.lookAt(camTarget)
   } else {
   }
 }

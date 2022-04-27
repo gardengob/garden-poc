@@ -39,7 +39,7 @@ vegetableGardenComponent3d.onInit = () => {
   const light = new AmbientLight(0x404040) // soft white light
   vegetableGardenComponent3d.root.add(light)
   vegetableGardenComponent3d.root.add(pocHouse.getModel())
-  vegetableGardenComponent3d.root.position.set(-3, 0, 2)
+  vegetableGardenComponent3d.root.position.set(-3, 0, 3.5)
   console.log('cegetableGardenComponent initialized')
   VegetableGardenGraphConstruction(vegetableGardenComponent3d)
   VegetableGardenInitialization(vegetableGardenComponent3d)

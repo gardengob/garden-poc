@@ -28,7 +28,7 @@ kitchenComponent3d.onInit = () => {
   const light = new AmbientLight(0x404040) // soft white light
   kitchenComponent3d.root.add(light)
   kitchenComponent3d.root.add(space.getModel())
-  kitchenComponent3d.root.position.set(-4, 0.5, -5)
+  kitchenComponent3d.root.position.set(-2, 0, -4)
   console.log('cegetableGardenComponent initialized')
 }
 
