@@ -72,7 +72,7 @@ export default function Garden3d() {
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-    appManager.devMode = true
+    appManager.devMode = false
 
     //déso j'en ai eu marre
     resizeCanvas()
@@ -110,8 +110,8 @@ export default function Garden3d() {
     appManager.canvas.style.width = '100%'
     appManager.canvas.style.height = '100%'
 
-    appManager.canvas.width = appManager.canvas.offsetWidth
-    appManager.canvas.height = appManager.canvas.offsetHeight
+    appManager.canvas.width = window.innerWidth
+    appManager.canvas.height = window.innerHeight
 
     appManager.onWindowResize()
   }
