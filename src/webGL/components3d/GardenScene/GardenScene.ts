@@ -204,7 +204,7 @@ let camMovMode = 'free'
 document.addEventListener('mousewheel', (e: WheelEvent) => {
   const direction = e.deltaY > 0 ? 1 : -1
   scrolling = direction
-  step = (direction * e.y) / 450
+  step = direction / 1.5
 
   clearTimeout(_scrollTimeout)
   _scrollTimeout = setTimeout(function () {
