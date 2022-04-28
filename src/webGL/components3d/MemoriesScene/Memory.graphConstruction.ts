@@ -44,7 +44,7 @@ export function MemoryGraphConstruction(compoment3d: Component3d) {
   compoment3d.root.add(point1)
   compoment3d.root.add(point2)
   // compoment3d.root.add(point3)
-  compoment3d.root.add(cube1)
-  compoment3d.root.add(cube2)
+  // compoment3d.root.add(cube1)
+  // compoment3d.root.add(cube2)
   // compoment3d.root.add(cube3)
 }

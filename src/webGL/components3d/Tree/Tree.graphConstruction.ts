@@ -30,9 +30,9 @@ export function TreeGraphConstruction(compoment3d: Component3d) {
   point3.position.set(-5.5, 1.2, 2)
   cube3.position.set(-5.5, 1.2, 2)
 
-  compoment3d.root.add(cube1)
-  compoment3d.root.add(cube2)
-  compoment3d.root.add(cube3)
+  // compoment3d.root.add(cube1)
+  // compoment3d.root.add(cube2)
+  // compoment3d.root.add(cube3)
 
   compoment3d.root.add(point1)
   compoment3d.root.add(point2)
