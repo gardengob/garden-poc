@@ -161,7 +161,7 @@ gardenScene.onInit = (scene) => {
   // appManager.camera = cameraTest as PerspectiveCamera
   //background
   const skyCubegeometry = new BoxGeometry(100, 100, 100)
-  const skyCubeMaterial = new MeshStandardMaterial({ color: '#00ced1' })
+  const skyCubeMaterial = new MeshStandardMaterial({ color: '#D8DCD0 ' })
   skyCubeMaterial.side = BackSide
   const skyCube = new Mesh(skyCubegeometry, skyCubeMaterial)
 
