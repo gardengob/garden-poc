@@ -23,13 +23,11 @@ kitchenComponent3d.onInit = () => {
 
   kitchenComponent3d.assignLoadedSceneObjects(gltfMap)
   const space = kitchenComponent3d.getObject('kitchen_space')
-  console.log('space', space)
 
-  const light = new AmbientLight(0x404040) // soft white light
-  kitchenComponent3d.root.add(light)
+  //   const light = new AmbientLight(0x404040) // soft white light
+  //   kitchenComponent3d.root.add(light)
   kitchenComponent3d.root.add(space.getModel())
-  kitchenComponent3d.root.position.set(-4, 0, -4)
-  console.log('cegetableGardenComponent initialized')
+  kitchenComponent3d.root.position.set(-6, 0, -4)
 }
 
 KitchenGraphConstruction(kitchenComponent3d)

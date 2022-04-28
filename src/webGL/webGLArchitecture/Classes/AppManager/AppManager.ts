@@ -102,18 +102,18 @@ export class AppManager {
       sampleNumber = 0
     }
 
-    const renderTarget: WebGLRenderTarget = new WebGLRenderTarget(
+    const renderTarget: WebGLRenderTarget | any = new WebGLRenderTarget(
       800,
-      600,
-      {
-        minFilter: LinearFilter,
-        magFilter: LinearFilter,
-        format: RGBAFormat,
-        encoding: sRGBEncoding,
-        powerPreference: 'high-performance',
-      },
-      sampleNumber
+      600
     )
+    renderTarget.options = {
+      minFilter: LinearFilter,
+      magFilter: LinearFilter,
+      format: RGBAFormat,
+      encoding: sRGBEncoding,
+      powerPreference: 'high-performance',
+    }
+    renderTarget.sampleNumber = sampleNumber
 
     this.composer = new EffectComposer(this.renderer, renderTarget)
 

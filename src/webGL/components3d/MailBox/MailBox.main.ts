@@ -20,13 +20,11 @@ mailboxComponent3d.onInit = () => {
 
   mailboxComponent3d.assignLoadedSceneObjects(gltfMap)
   const space = mailboxComponent3d.getObject('boitemail_space')
-  console.log('space', space)
 
-  const light = new AmbientLight(0x404040) // soft white light
-  mailboxComponent3d.root.add(light)
+  // const light = new AmbientLight(0x404040) // soft white light
+  // mailboxComponent3d.root.add(light)
   mailboxComponent3d.root.add(space.getModel())
-  mailboxComponent3d.root.position.set(-5, 0, 5)
-  console.log('cegetableGardenComponent initialized')
+  mailboxComponent3d.root.position.set(-5, 0, 7)
 }
 
 MailBoxGraphConstruction(mailboxComponent3d)

@@ -40,8 +40,6 @@ export class LoadingManager {
     onAllLoaded: () => void,
     onModelLoaded: (gltf: GLTF, loadingPercent: number) => void
   ): void {
-    console.log('a')
-
     this.modelsToLoad.forEach((objectUrl, key) => {
       console.log('objectUrl', objectUrl)
       this.loader.load(
@@ -49,6 +47,7 @@ export class LoadingManager {
         objectUrl,
         // called when the resource is loaded
         (gltf) => {
+          console.log(key, gltf)
           this.loadedGLTF.set(key, gltf)
           this.loadingIndex += 1
           this.totalLoadingPercent += this.loadingIndex / this.loadedGLTF.size

@@ -14,6 +14,16 @@ import {
   BoxGeometry,
   MeshStandardMaterial,
   BackSide,
+  AnimationMixer,
+  AnimationClip,
+  LoopOnce,
+  CameraHelper,
+  PerspectiveCamera,
+  Camera,
+  Curve,
+  PMREMGenerator,
+  ACESFilmicToneMapping,
+  sRGBEncoding,
 } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Scene } from '../../webGLArchitecture/Classes/Scene/Scene'
@@ -24,16 +34,17 @@ import { vegetableGardenComponent3d } from '../VegetableGarden/VegetableGarden.m
 import gsap from 'gsap/all'
 import { contestComponent3d } from '../Contest/Contest.main'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
-import { Geometry, GLTF } from 'three-stdlib'
+import { EXRLoader, Geometry, GLTF } from 'three-stdlib'
 import { memoryComponent3d } from '../MemoriesScene/Memory.main'
 import { MaterialHelper } from '../../webGLArchitecture/Utils/MaterialHelper'
 import SpaceEntryService from '../../../services/events/SpaceEntryService'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
+import { GLTFObject } from '../../webGLArchitecture/Classes/GLTFObject/GLTFObject'
 
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
 
-gardenScene.expectedObjects = ['garden_base']
+gardenScene.expectedObjects = ['garden_base', 'base_fake_elements3']
 
 gardenScene.components.push(vegetableGardenComponent3d)
 gardenScene.components.push(treeComponent3d)
@@ -59,28 +70,31 @@ gardenScene.sceneBase.add(cube)
 // plane.position.y = -0.5
 // gardenScene.sceneBase.add(plane)
 
-const targetCurve = new CatmullRomCurve3([
-  new Vector3(-8, 1, 28),
-  new Vector3(-8, 1, 20),
-  new Vector3(-8, 1, 8),
-  new Vector3(-8, 1, 2),
-  new Vector3(-8, 1, -6),
-  new Vector3(-8, 1, -10),
-  new Vector3(-8, 1, -14),
-  new Vector3(-8, 1, -20),
-  new Vector3(2, 1, -22),
-  new Vector3(2, 1, -16),
-  new Vector3(2, 1, -8),
-  new Vector3(2, 1, -0.5),
-  new Vector3(2, 5, 0.5),
-  new Vector3(2, 1, 1.5),
-  new Vector3(2, 1, 6),
-  new Vector3(2, 1, 8),
-  new Vector3(2, 1, 16),
-  new Vector3(2, 1, 28),
+const targetCurve: any = new CatmullRomCurve3([
+  // mailbox
+  new Vector3(-2, 1, 9),
+  new Vector3(-2, 1, 7),
+  new Vector3(-2, 1, 4),
+  //vegetables
+  new Vector3(-2, 1, 2.5),
+  new Vector3(-2, 1, 0.5),
+  //kitchen
+  new Vector3(-2, 2, -3),
+  new Vector3(-2, 2, -6),
+  //memo
+  new Vector3(0.5, 1.2, -5.5),
+  new Vector3(0.5, 1.2, -4),
+  new Vector3(0.5, 1.2, -2),
+  //tree
+  new Vector3(0.5, 1.2, 0),
+  new Vector3(0.5, 2, 1.5),
+  new Vector3(0.5, 1, 3),
+  //contest
+  new Vector3(1, 1.4, 7),
+  new Vector3(0.5, 1.4, 9),
 ])
 targetCurve.curveType = 'catmullrom'
-targetCurve.tension = 0
+targetCurve.tension = 0.2
 targetCurve.closed = true
 
 const targetPoints = targetCurve.getPoints(500)
@@ -92,34 +106,66 @@ gardenScene.sceneBase.add(targetCurveObject)
 
 let target = new Vector3(0, 0, 0)
 
+let mixerCam
+let pngCubeRenderTarget, exrCubeRenderTarget
+let pngBackground, exrBackground
 gardenScene.onInit = (scene) => {
+  const appManager = AppManager.getInstance()
+
+  new EXRLoader().load('hdri.exr', function (texture) {
+    exrCubeRenderTarget = pmremGenerator.fromEquirectangular(texture)
+    exrBackground = exrCubeRenderTarget.texture
+
+    texture.dispose()
+  })
+  AppManager.getInstance().scene.background = background
+  const pmremGenerator = new PMREMGenerator(appManager.renderer)
+  pmremGenerator.compileEquirectangularShader()
+  appManager.renderer.toneMapping = ACESFilmicToneMapping
+  appManager.renderer.outputEncoding = sRGBEncoding
+
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     gardenScene.expectedObjects
   )
-
   gardenScene.assignLoadedSceneObjects(gltfMap)
 
-  MaterialHelper.disableLights(gardenScene.sceneBase)
+  // MaterialHelper.disableLights(gardenScene.sceneBase)
 
   scene.assignLoadedSceneObjects(gltfMap)
   const gardenBase = scene.getObject('garden_base')
+  const testBase = scene.getObject('base_fake_elements3')
+
+  const clipsCam = (gardenBase as GLTFObject).GLTF.animations
 
   const gardenBaseModel = gardenBase.getModel()
+  const testBaseModel = testBase.getModel()
 
   gardenBaseModel.position.set(-18, 0, 0)
   scene.sceneBase.add(gardenBaseModel)
+  scene.sceneBase.add(testBaseModel)
   scene.sceneBase.position.set(0, 0, 0)
   gardenBaseModel.scale.set(1.2, 1, 1.2)
+  const cameraTest = (testBase as GLTFObject).GLTF.cameras[0]
+  const helpertest = new CameraHelper(cameraTest as Camera)
+  scene.sceneBase.add(cameraTest)
+  scene.sceneBase.add(helpertest)
 
+  mixerCam = new AnimationMixer(cameraTest as PerspectiveCamera)
+
+  const clip = AnimationClip.findByName(clipsCam, 'CameraAction')
+  const action = mixerCam.clipAction(clip)
+  action.loop = LoopOnce
+  action.play()
+
+  // appManager.camera = cameraTest as PerspectiveCamera
   //background
   const skyCubegeometry = new BoxGeometry(100, 100, 100)
   const skyCubeMaterial = new MeshStandardMaterial({ color: '#00ced1' })
   skyCubeMaterial.side = BackSide
   const skyCube = new Mesh(skyCubegeometry, skyCubeMaterial)
 
-  gardenScene.sceneBase.add(skyCube)
+  // gardenScene.sceneBase.add(skyCube)
 
-  const appManager = AppManager.getInstance()
   const pointsObjects = gardenScene.getPoints()
 
   const gardenPoints = pointsObjects.map((point: Object3D) => {
@@ -127,9 +173,12 @@ gardenScene.onInit = (scene) => {
     point.getWorldPosition(worldVector)
     return worldVector
   })
+  // gardenPoints.forEach((gardenPoint) => {
+  //   console.log(`new Vector3(${gardenPoint.x},1 ,${gardenPoint.z})`)
+  // })
 
   //Create a closed wavey loop
-  const curve = new CatmullRomCurve3(gardenPoints)
+  const curve: any = new CatmullRomCurve3(gardenPoints)
   curve.curveType = 'catmullrom'
   curve.tension = 0.5
   curve.closed = true
@@ -162,8 +211,23 @@ document.addEventListener('mousewheel', (e: WheelEvent) => {
   }, 250)
 })
 let closeElement: Component3d = null
-
+let newEnvMap
+let background
 gardenScene.onAnimationLoop = (ellapsedTime) => {
+  newEnvMap = exrCubeRenderTarget ? exrCubeRenderTarget.texture : null
+  background = exrBackground
+
+  gardenScene.sceneBase.traverse((obj) => {
+    if (obj instanceof Mesh) {
+      if (newEnvMap !== obj.material.envMap) {
+        obj.material.envMap = newEnvMap
+        obj.material.needsUpdate = true
+      }
+    }
+  })
+  AppManager.getInstance().scene.background = background
+
+  // mixerCam.update(1 / 144)
   let timedStep = step * ellapsedTime
   if (scrolling < -0.1 || (scrolling > 0.1 && camMovMode == 'free')) {
     if (scrolling > 0) {
@@ -193,12 +257,12 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
       appManager.camera.getWorldPosition(worldCameraPosition)
 
       if (
-        worldElementPosition.x > worldCameraPosition.x - 2 &&
-        worldElementPosition.x < worldCameraPosition.x + 2 &&
-        worldElementPosition.y > worldCameraPosition.y - 2 &&
-        worldElementPosition.y < worldCameraPosition.y + 2 &&
-        worldElementPosition.z > worldCameraPosition.z - 2 &&
-        worldElementPosition.z < worldCameraPosition.z + 2
+        worldElementPosition.x > worldCameraPosition.x - 1 &&
+        worldElementPosition.x < worldCameraPosition.x + 1 &&
+        worldElementPosition.y > worldCameraPosition.y - 1 &&
+        worldElementPosition.y < worldCameraPosition.y + 1 &&
+        worldElementPosition.z > worldCameraPosition.z - 1 &&
+        worldElementPosition.z < worldCameraPosition.z + 1
       ) {
         notCloseToAnyThing = false
         if (element.component != closeElement) {
@@ -215,26 +279,29 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     if (notCloseToAnyThing && closeElement !== null) {
       closeElement = null
       console.log('exit ')
+      SpaceEntryService.setNearElement(null)
       //ACTION : not front of element
     }
 
     const curve = gardenScene.cameraPath
     const camPos = curve.getPointAt(camPosIndex.y / 10000)
+    const camPosTarget = targetCurve.getPointAt(camPosIndex.y / 10000)
     const camRot = curve.getTangentAt(camPosIndex.y / 10000)
     // const camTarget = targetCurve.getPointAt(
     //   (camPosIndex.y * 0.6) / 0.4 / 10000
     // )
     const curvPercent = camPosIndex.y / 10000
 
-    console.log(
-      'curve percent',
-      Math.round((camPosIndex.y / 10000) * 100) / 100
-    )
+    // console.log(
+    //   'curve percent',
+    //   Math.round((camPosIndex.y / 10000) * 100) / 100
+    // )
 
-    // cube.position.set(camTarget.x, camTarget.y, camTarget.z)
+    cube.position.set(camPosTarget.x, camPosTarget.y, camPosTarget.z)
 
     // appManager.camera.lookAt(camTarget)
     appManager.cameraHolder.position.set(camPos.x, camPos.y, camPos.z)
+    cube.position.set(camPos.x, camPos.y, camPos.z)
 
     target = new Vector3(camRot.z, 1, -camRot.x)
     const targetPoint = target.add(camPos)
@@ -243,6 +310,6 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
       // closeElement.cameraLookAtTarget.getWorldPosition(worldtarget)
       // appManager.camera.lookAt(worldtarget)
     }
-    appManager.camera.lookAt(targetPoint.x, camPos.y - 0.2, targetPoint.z)
+    appManager.camera.lookAt(targetPoint.x, camPosTarget.y, targetPoint.z)
   }
 }

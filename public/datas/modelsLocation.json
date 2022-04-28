@@ -4,6 +4,10 @@
     "path": "https://garden-gob.adrienguedes.fr/3dModels/base.glb"
   },
   {
+    "name": "base_fake_elements3",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/base_fake_elements6.glb"
+  },
+  {
     "name": "boitemail_space",
     "path": "https://garden-gob.adrienguedes.fr/3dModels/boitemail_space.glb"
   },

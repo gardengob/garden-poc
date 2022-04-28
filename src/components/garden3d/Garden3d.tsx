@@ -12,7 +12,8 @@ import css from './Garden3d.module.scss'
 import { LoadingManager } from '../../webGL/webGLArchitecture/Classes/LoadingManager/LoadingManager'
 import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
 import { gardenScene } from '../../webGL/components3d/GardenScene/GardenScene'
-
+import SpaceEntryService from '../../services/events/SpaceEntryService'
+import { useRouter } from 'next/router'
 export interface IWindowSize {
   width: number
   height: number
@@ -25,10 +26,17 @@ export default function Garden3d() {
     width: 0,
     height: 0,
   })
+  const [elementNear, setElementNear] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
+
+    SpaceEntryService.signal.on((name) => {
+      console.log('inUi', name)
+      setElementNear(name)
+    })
 
     modelsToLoad.forEach((model) => {
       loadingManager.modelsToLoad.set(model.name, model.path)
@@ -114,7 +122,7 @@ export default function Garden3d() {
     console.log('all model loaded')
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
-    console.log(Math.round((xhr.loaded * 100) / xhr.total))
+    // console.log(Math.round((xhr.loaded * 100) / xhr.total))
   }
 
   return (
@@ -123,10 +131,26 @@ export default function Garden3d() {
         onClick={() => {
           AppManager.getInstance().devMode = !AppManager.getInstance().devMode
         }}
-        style={{ position: 'absolute' }}
       >
         devMode
       </button>
+      {elementNear && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '75%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            padding: '10px 20px',
+            color: 'black',
+            backgroundColor: 'white',
+            borderRadius: '32px',
+          }}
+        >
+          {elementNear}
+        </div>
+      )}
+
       <canvas className={css.canvas} ref={canvasRef} id="canvas" />
     </div>
   )

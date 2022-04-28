@@ -25,11 +25,10 @@ treeComponent3d.onInit = () => {
   treeComponent3d.assignLoadedSceneObjects(gltfMap)
   const pocHouse = treeComponent3d.getObject('tree_space')
 
-  const light = new AmbientLight(0x404040) // soft white light
-  treeComponent3d.root.add(light)
+  //   const light = new AmbientLight(0x404040) // soft white light
+  //   treeComponent3d.root.add(light)
   treeComponent3d.root.add(pocHouse.getModel())
-  treeComponent3d.root.position.set(4, 0, 1)
-  console.log('cegetableGardenComponent initialized')
+  treeComponent3d.root.position.set(6, 0, 1)
 
   TreeGraphConstruction(treeComponent3d)
   TreeInitialization(treeComponent3d)

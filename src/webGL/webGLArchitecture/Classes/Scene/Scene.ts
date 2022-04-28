@@ -38,6 +38,21 @@ export class Scene implements IUpdatable {
     this.onInit(this)
   }
 
+  /**
+   * get a THREE.js object directly by it's Playlet's scene graph
+   *
+   * @param name - the name of the wanted object
+   *
+   * @public
+   */
+  getObjectFromGraph(modelName: string): Object3D {
+    try {
+      return this.sceneBase.getObjectByName(modelName)!
+    } catch (error) {
+      throw Error('Model not available')
+    }
+  }
+
   getObject(modelName: string): IObject3DWrapper {
     try {
       return this.loadedSceneObjects.get(modelName)!

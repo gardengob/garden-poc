@@ -8,11 +8,12 @@ import {
   Mesh,
   MeshBasicMaterial,
   Object3D,
+  PMREMGenerator,
   Points,
   PointsMaterial,
   Vector3,
 } from 'three'
-import { Geometry, GLTF } from 'three-stdlib'
+import { EXRLoader, Geometry, GLTF } from 'three-stdlib'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
@@ -37,11 +38,10 @@ vegetableGardenComponent3d.onInit = () => {
   const pocHouse = vegetableGardenComponent3d.getObject('potager_space')
   const tsetCrve = vegetableGardenComponent3d.getObjectFromGraph('CourbeBézier')
 
-  const light = new AmbientLight(0x404040) // soft white light
-  vegetableGardenComponent3d.root.add(light)
+  // const light = new AmbientLight(0x404040) // soft white light
+  // vegetableGardenComponent3d.root.add(light)
   vegetableGardenComponent3d.root.add(pocHouse.getModel())
-  vegetableGardenComponent3d.root.position.set(-4, 0, 3.5)
-  console.log('cegetableGardenComponent initialized')
+  vegetableGardenComponent3d.root.position.set(-6, 0, 5.5)
   VegetableGardenGraphConstruction(vegetableGardenComponent3d)
   VegetableGardenInitialization(vegetableGardenComponent3d)
 }

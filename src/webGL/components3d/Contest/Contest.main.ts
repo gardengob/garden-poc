@@ -24,6 +24,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const contestComponent3d = new Component3d()
 contestComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
+contestComponent3d.name = 'contest'
 contestComponent3d.index = 6
 contestComponent3d.expectedObjects = ['table_space']
 
@@ -35,11 +36,11 @@ contestComponent3d.onInit = () => {
   contestComponent3d.assignLoadedSceneObjects(gltfMap)
   const pocHouse = contestComponent3d.getObject('table_space')
 
-  const light = new AmbientLight(0x404040) // soft white light
-  contestComponent3d.root.add(light)
+  // const light = new AmbientLight(0x404040) // soft white light
+  // contestComponent3d.root.add(light)
   contestComponent3d.root.add(pocHouse.getModel())
-  contestComponent3d.root.position.set(4, 0, 4)
-  console.log('cegetableGardenComponent initialized')
+  contestComponent3d.root.position.set(6, 0, 6)
+  // console.log('cegetableGardenComponent initialized')
   ContestGraphConstruction(contestComponent3d)
   ContestInitialization(contestComponent3d)
 }
