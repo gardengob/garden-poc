@@ -14,10 +14,13 @@ import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
 import { gardenScene } from '../../webGL/components3d/GardenScene/GardenScene'
 import SpaceEntryService from '../../services/events/SpaceEntryService'
 import { useRouter } from 'next/router'
+import Stats from 'three/examples/jsm/libs/stats.module'
 export interface IWindowSize {
   width: number
   height: number
 }
+
+const stats = Stats()
 
 export default function Garden3d() {
   const canvasRef = useRef(null)
@@ -90,7 +93,7 @@ export default function Garden3d() {
     const deltaTime = currentTime - time
     time = currentTime
     const appManager = AppManager.getInstance()
-    // stats.begin()
+    stats.begin()
     // const elapsedTime = appManager.clock.getElapsedTime()
     // const deltaTime = elapsedTime - appManager.oldElapsedTime
     // appManager.oldElapsedTime = elapsedTime
@@ -98,7 +101,7 @@ export default function Garden3d() {
     appManager.update(deltaTime)
     requestAnimationFrame(render)
 
-    // stats.end()
+    stats.end()
   }
 
   function resizeCanvas() {
@@ -127,7 +130,11 @@ export default function Garden3d() {
 
   return (
     <div className={css.webgl}>
+      {/* <div>{stats.domElement}</div> */}
       <button
+        style={{
+          position: 'absolute',
+        }}
         onClick={() => {
           AppManager.getInstance().devMode = !AppManager.getInstance().devMode
         }}
