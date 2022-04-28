@@ -102,7 +102,7 @@ const curveTargetGeometry = new BufferGeometry().setFromPoints(targetPoints)
 
 const targetCurveMaterial = new LineBasicMaterial({ color: 0xfa00fa })
 const targetCurveObject = new Line(curveTargetGeometry, targetCurveMaterial)
-gardenScene.sceneBase.add(targetCurveObject)
+// gardenScene.sceneBase.add(targetCurveObject)
 
 let target = new Vector3(0, 0, 0)
 let firstFrame = false
@@ -188,11 +188,14 @@ gardenScene.onInit = (scene) => {
   const curveGeometry = new BufferGeometry().setFromPoints(points)
 
   const curveMaterial = new LineBasicMaterial({ color: 0xfffa00 })
+  curveMaterial.opacity = 0
   const curveObject = new Line(curveGeometry, curveMaterial)
-  gardenScene.sceneBase.add(curveObject)
+  // gardenScene.sceneBase.add(curveObject)
   scene.cameraPath = curve
-  const curveStart = scene.cameraPath.getPoint(0)
+  const curveStart = scene.cameraPath.getPoint(camPosIndex.y)
   appManager.cameraHolder.position.set(curveStart.x, curveStart.y, curveStart.z)
+
+  appManager.camera.lookAt(curveStart.add(new Vector3(-1, 0, 0)))
 }
 
 let camPosIndex = { x: 0, y: 0 }
@@ -204,11 +207,12 @@ let camMovMode = 'free'
 document.addEventListener('mousewheel', (e: WheelEvent) => {
   const direction = e.deltaY > 0 ? 1 : -1
   scrolling = direction
-  step = direction / 1.5
+  step = direction / 1.2
 
   clearTimeout(_scrollTimeout)
   _scrollTimeout = setTimeout(function () {
     console.log("Haven't scrolled in 250ms")
+    scrolling = 0
   }, 250)
 })
 let closeElement: Component3d = null

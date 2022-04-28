@@ -41,6 +41,6 @@ export function KitchenGraphConstruction(compoment3d: Component3d) {
   compoment3d.root.add(point4)
 
   // compoment3d.root.add(cube1)
-  compoment3d.root.add(cube2)
-  compoment3d.root.add(cube3)
+  // compoment3d.root.add(cube2)
+  // compoment3d.root.add(cube3)
 }

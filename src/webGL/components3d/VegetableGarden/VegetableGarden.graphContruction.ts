@@ -23,8 +23,8 @@ export function VegetableGardenGraphConstruction(compoment3d: Component3d) {
   point5.position.set(4, 1.2, -5)
   cube5.position.set(4, 1.2, -5)
 
-  compoment3d.root.add(cube3)
-  compoment3d.root.add(cube5)
+  // compoment3d.root.add(cube3)
+  // compoment3d.root.add(cube5)
 
   // compoment3d.root.add(point1)
   compoment3d.root.add(point3)
