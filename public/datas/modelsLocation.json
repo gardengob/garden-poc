@@ -1,0 +1,34 @@
+[
+  {
+    "name": "garden_base",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/base.glb"
+  },
+  {
+    "name": "base_fake_elements3",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/base_fake_elements6.glb"
+  },
+  {
+    "name": "boitemail_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/boitemail_space.glb"
+  },
+  {
+    "name": "potager_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/potager_space.glb"
+  },
+  {
+    "name": "table_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/table_space.glb"
+  },
+  {
+    "name": "memories_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/memories_space.glb"
+  },
+  {
+    "name": "kitchen_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/kitchen_space.glb"
+  },
+  {
+    "name": "tree_space",
+    "path": "https://garden-gob.adrienguedes.fr/3dModels/tree_space.glb"
+  }
+]
