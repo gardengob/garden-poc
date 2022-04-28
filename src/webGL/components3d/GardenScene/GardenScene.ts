@@ -105,6 +105,7 @@ const targetCurveObject = new Line(curveTargetGeometry, targetCurveMaterial)
 gardenScene.sceneBase.add(targetCurveObject)
 
 let target = new Vector3(0, 0, 0)
+let firstFrame = false
 
 let mixerCam
 let pngCubeRenderTarget, exrCubeRenderTarget
@@ -115,10 +116,10 @@ gardenScene.onInit = (scene) => {
   new EXRLoader().load('hdri.exr', function (texture) {
     exrCubeRenderTarget = pmremGenerator.fromEquirectangular(texture)
     exrBackground = exrCubeRenderTarget.texture
-
+    firstFrame = true
     texture.dispose()
   })
-  AppManager.getInstance().scene.background = background
+  // AppManager.getInstance().scene.background = background
   const pmremGenerator = new PMREMGenerator(appManager.renderer)
   pmremGenerator.compileEquirectangularShader()
   appManager.renderer.toneMapping = ACESFilmicToneMapping
@@ -140,11 +141,11 @@ gardenScene.onInit = (scene) => {
   const gardenBaseModel = gardenBase.getModel()
   const testBaseModel = testBase.getModel()
 
-  gardenBaseModel.position.set(-18, 0, 0)
+  gardenBaseModel.position.set(-19.5, 0, 0)
   scene.sceneBase.add(gardenBaseModel)
-  scene.sceneBase.add(testBaseModel)
+  // scene.sceneBase.add(testBaseModel)
   scene.sceneBase.position.set(0, 0, 0)
-  gardenBaseModel.scale.set(1.2, 1, 1.2)
+  gardenBaseModel.scale.set(1.3, 1, 1.3)
   const cameraTest = (testBase as GLTFObject).GLTF.cameras[0]
   const helpertest = new CameraHelper(cameraTest as Camera)
   scene.sceneBase.add(cameraTest)
@@ -164,7 +165,7 @@ gardenScene.onInit = (scene) => {
   skyCubeMaterial.side = BackSide
   const skyCube = new Mesh(skyCubegeometry, skyCubeMaterial)
 
-  // gardenScene.sceneBase.add(skyCube)
+  gardenScene.sceneBase.add(skyCube)
 
   const pointsObjects = gardenScene.getPoints()
 
@@ -214,19 +215,20 @@ let closeElement: Component3d = null
 let newEnvMap
 let background
 gardenScene.onAnimationLoop = (ellapsedTime) => {
-  newEnvMap = exrCubeRenderTarget ? exrCubeRenderTarget.texture : null
-  background = exrBackground
-
-  gardenScene.sceneBase.traverse((obj) => {
-    if (obj instanceof Mesh) {
-      if (newEnvMap !== obj.material.envMap) {
-        obj.material.envMap = newEnvMap
-        obj.material.needsUpdate = true
+  // AppManager.getInstance().scene.background = background
+  if (firstFrame) {
+    newEnvMap = exrCubeRenderTarget ? exrCubeRenderTarget.texture : null
+    background = exrBackground
+    gardenScene.sceneBase.traverse((obj) => {
+      if (obj instanceof Mesh) {
+        if (newEnvMap !== obj.material.envMap) {
+          obj.material.envMap = newEnvMap
+          obj.material.needsUpdate = true
+        }
       }
-    }
-  })
-  AppManager.getInstance().scene.background = background
-
+    })
+    firstFrame = false
+  }
   // mixerCam.update(1 / 144)
   let timedStep = step * ellapsedTime
   if (scrolling < -0.1 || (scrolling > 0.1 && camMovMode == 'free')) {
