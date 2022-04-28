@@ -18,20 +18,20 @@ export function TreeGraphConstruction(compoment3d: Component3d) {
 
   const point1 = new Object3D()
   point1.name = 'tree_cameraPathPoint_1'
-  point1.position.set(1, 0, 1)
+  point1.position.set(-3.5, 1.2, -1)
 
   const point2 = new Object3D()
-  point2.name = 'tree_entryPoint_2'
-  point2.position.set(0, 0, 1)
+  point2.name = 'tree_entryPersoPoint_2'
+  point2.position.set(-3.5, 1.2, 0.5)
 
   const point3 = new Object3D()
   point3.name = 'tree_cameraPathPoint_3'
-  point3.position.set(-1, 0, 1)
+  point3.position.set(-3.5, 1.2, 1)
   compoment3d.root.add(cube)
 
-  // compoment3d.root.add(point1)
-  // compoment3d.root.add(point2)
-  // compoment3d.root.add(point3)
+  compoment3d.root.add(point1)
+  compoment3d.root.add(point2)
+  compoment3d.root.add(point3)
 
   compoment3d.points = [point1.position, point2.position, point3.position]
 }

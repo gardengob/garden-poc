@@ -22,6 +22,7 @@ import { VegetableGardenInitialization } from './VegetableGarden.initialization'
 const loadingManager = LoadingManager.getInstance()
 
 export const vegetableGardenComponent3d = new Component3d()
+vegetableGardenComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 vegetableGardenComponent3d.index = 2
 vegetableGardenComponent3d.name = 'vegetable_garden'
 
@@ -39,7 +40,7 @@ vegetableGardenComponent3d.onInit = () => {
   const light = new AmbientLight(0x404040) // soft white light
   vegetableGardenComponent3d.root.add(light)
   vegetableGardenComponent3d.root.add(pocHouse.getModel())
-  vegetableGardenComponent3d.root.position.set(-3, 0, 3.5)
+  vegetableGardenComponent3d.root.position.set(-4, 0, 3.5)
   console.log('cegetableGardenComponent initialized')
   VegetableGardenGraphConstruction(vegetableGardenComponent3d)
   VegetableGardenInitialization(vegetableGardenComponent3d)

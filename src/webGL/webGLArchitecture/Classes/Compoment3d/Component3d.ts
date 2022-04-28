@@ -16,6 +16,7 @@ export class Component3d implements IUpdatable, IPathable {
   index: number
   points: Vector3[] = []
   name: Component3dName
+  cameraLookAtTarget: Object3D = new Object3D()
 
   root: Object3D = new Object3D()
   position: Vector3
@@ -32,6 +33,9 @@ export class Component3d implements IUpdatable, IPathable {
     IObject3DWrapper
   >()
 
+  constructor() {
+    this.root.add(this.cameraLookAtTarget)
+  }
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
 

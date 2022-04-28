@@ -21,13 +21,13 @@ export function MemoryGraphConstruction(compoment3d: Component3d) {
   ]
   const point2 = new Object3D()
   point2.name = 'memory_cameraPathPoint_2'
-  point2.position.set(-5.5, 1, -1.5)
+  point2.position.set(-3.5, 1.2, -1.5)
   const point3 = new Object3D()
   point3.name = 'memory_entryPersoPoint_3'
-  point3.position.set(-6, 1, -1)
+  point3.position.set(-3.5, 1.2, 0)
   const point4 = new Object3D()
   point4.name = 'memory_cameraPathPoint_4'
-  point4.position.set(-5, 1, 2)
+  point4.position.set(-3.5, 1.2, 2)
   // compoment3d.root.add(cube)
   compoment3d.root.add(point2)
   compoment3d.root.add(point3)

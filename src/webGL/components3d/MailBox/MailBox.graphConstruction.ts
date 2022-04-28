@@ -21,13 +21,13 @@ export function MailBoxGraphConstruction(compoment3d: Component3d) {
   // ]
   const point1 = new Object3D()
   point1.name = 'mailbox_cameraPathPoint_1'
-  point1.position.set(3, 1, 2)
+  point1.position.set(3, 1.2, 2)
   const point2 = new Object3D()
   point2.name = 'mailbox_entryPersoPoint_2'
-  point2.position.set(3, 1, 0)
+  point2.position.set(3, 1.2, 0)
   const point3 = new Object3D()
   point3.name = 'mailbox_cameraPathPoint_3'
-  point3.position.set(3, 1, -3)
+  point3.position.set(3, 1.2, -3)
   compoment3d.root.add(point1)
   compoment3d.root.add(point2)
   compoment3d.root.add(point3)

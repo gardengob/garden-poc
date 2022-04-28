@@ -24,18 +24,18 @@ export function ContestGraphConstruction(compoment3d: Component3d) {
 
   const point2 = new Object3D()
   point2.name = 'contest_cameraPathPoint_2'
-  point2.position.set(-2, 0, 2)
+  point2.position.set(-3, 1.2, 1)
 
   const point3 = new Object3D()
-  point3.name = 'contest_entryPoint_3'
-  point3.position.set(-2, 0, -1)
+  point3.name = 'contest_entryPersoPoint_3'
+  point3.position.set(-3.5, 1.2, 0)
 
   const point4 = new Object3D()
   point4.name = 'contest_cameraPathPoint_4'
-  point4.position.set(-1, 0, -2)
+  point4.position.set(-3.5, 1.2, 3)
   // compoment3d.root.add(cube)
 
   // compoment3d.root.add(point2)
-  // compoment3d.root.add(point3)
-  // compoment3d.root.add(point4)
+  compoment3d.root.add(point3)
+  compoment3d.root.add(point4)
 }

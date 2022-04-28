@@ -24,6 +24,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const memoryComponent3d = new Component3d()
 memoryComponent3d.index = 4
+memoryComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 memoryComponent3d.name = 'memories'
 memoryComponent3d.expectedObjects = ['memories_space']
 

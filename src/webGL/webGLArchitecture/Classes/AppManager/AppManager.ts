@@ -87,6 +87,7 @@ export class AppManager {
 
     this.devControls = new OrbitControls(this.devCamera, this.canvas)
     this.devControls.enableDamping = true
+    this.devControls.enableZoom = false
     this.devCamera.position.set(0, 20, 0)
     this.devCamera.lookAt(0, 0, 0)
 
@@ -194,7 +195,7 @@ export class AppManager {
       nearPlane,
       farPlane
     )
-
+    camera.zoom = 0.8
     return camera
   }
 

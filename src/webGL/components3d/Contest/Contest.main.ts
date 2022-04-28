@@ -23,7 +23,7 @@ import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/L
 const loadingManager = LoadingManager.getInstance()
 
 export const contestComponent3d = new Component3d()
-contestComponent3d.root.position.set(-2, 0, -2)
+contestComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 contestComponent3d.index = 6
 contestComponent3d.expectedObjects = ['table_space']
 

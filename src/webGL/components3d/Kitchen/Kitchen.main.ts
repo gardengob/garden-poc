@@ -1,4 +1,4 @@
-import { AmbientLight } from 'three'
+import { AmbientLight, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
@@ -10,8 +10,8 @@ const loadingManager = LoadingManager.getInstance()
 
 export const kitchenComponent3d = new Component3d()
 kitchenComponent3d.name = 'kitchen'
-kitchenComponent3d.root.position.set(-2, 0, -2)
 kitchenComponent3d.index = 3
+kitchenComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 kitchenComponent3d.expectedObjects = []
 
 kitchenComponent3d.expectedObjects = ['kitchen_space']
@@ -28,7 +28,7 @@ kitchenComponent3d.onInit = () => {
   const light = new AmbientLight(0x404040) // soft white light
   kitchenComponent3d.root.add(light)
   kitchenComponent3d.root.add(space.getModel())
-  kitchenComponent3d.root.position.set(-2, 0, -4)
+  kitchenComponent3d.root.position.set(-4, 0, -4)
   console.log('cegetableGardenComponent initialized')
 }
 
