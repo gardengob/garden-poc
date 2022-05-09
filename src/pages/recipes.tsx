@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import RecipeCard from '../components/recipeCard/recipeCard'
+import RecipeCard from '../components/recipeCard/RecipeCard'
 import FamilyService from '../services/FamilyService'
 import RecipeService from '../services/RecipeService'
 import UserService from '../services/UserService'
