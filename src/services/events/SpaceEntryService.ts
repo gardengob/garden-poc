@@ -5,8 +5,6 @@ class SpaceEntryService {
   public signal = StateSignal<Component3dName>(undefined)
 
   public setNearElement(componentName: Component3dName) {
-    console.log('zzz', componentName)
-
     this.signal.dispatch(componentName)
   }
 }

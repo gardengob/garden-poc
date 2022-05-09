@@ -15,6 +15,7 @@ import { gardenScene } from '../../webGL/components3d/GardenScene/GardenScene'
 import SpaceEntryService from '../../services/events/SpaceEntryService'
 import { useRouter } from 'next/router'
 import Stats from 'three/examples/jsm/libs/stats.module'
+import ScrollService from '../../services/events/ScrollService'
 export interface IWindowSize {
   width: number
   height: number
@@ -39,6 +40,17 @@ export default function Garden3d() {
     SpaceEntryService.signal.on((name) => {
       console.log('inUi', name)
       setElementNear(name)
+    })
+
+    let _scrollTimeout = null
+
+    document.addEventListener('mousewheel', (e: WheelEvent) => {
+      ScrollService.scrolling(e)
+
+      clearTimeout(_scrollTimeout)
+      _scrollTimeout = setTimeout(function () {
+        ScrollService.stopped()
+      }, 250)
     })
 
     modelsToLoad.forEach((model) => {
