@@ -38,7 +38,6 @@ export default function Garden3d() {
     const appManager = AppManager.getInstance()
 
     SpaceEntryService.signal.on((name) => {
-      console.log('inUi', name)
       setElementNear(name)
     })
 
@@ -91,7 +90,6 @@ export default function Garden3d() {
     resizeCanvas()
 
     appManager.appInitializationFunction = () => {
-      console.log('appInit called')
       gardenScene.init()
       appManager.scene.add(gardenScene.sceneBase)
       appManager.objectsToUpdate.push(gardenScene)
@@ -134,7 +132,6 @@ export default function Garden3d() {
     const appManager = AppManager.getInstance()
 
     appManager.appState = AppStateEnum.INITIALIZING
-    console.log('all model loaded')
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
     // console.log(Math.round((xhr.loaded * 100) / xhr.total))
