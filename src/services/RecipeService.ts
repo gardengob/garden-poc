@@ -7,8 +7,6 @@ class RecipeService {
   ): Promise<void> {
     if (!recipe) return alert('Renseigner une recette')
 
-    console.log(recipe)
-
     try {
       const user = supabase.auth.user()
       // We create the family with the asked name
@@ -42,7 +40,6 @@ class RecipeService {
         .select('*')
         .eq('name', recipe_name)
 
-      // console.log(data)
       const recipe = data[0]
       localStorage.setItem('recipe', JSON.stringify(recipe))
 

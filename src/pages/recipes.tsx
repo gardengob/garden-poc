@@ -3,7 +3,6 @@ import { useEffect, useLayoutEffect, useState } from 'react'
 import RecipeCard from '../components/recipeCard/RecipeCard'
 import FamilyService from '../services/FamilyService'
 import RecipeService from '../services/RecipeService'
-import UserService from '../services/UserService'
 import { supabase } from '../utils/supabaseClient'
 import css from './recipes.module.scss'
 
@@ -12,10 +11,6 @@ export default function Recipes() {
   const [recipes, setRecipes] = useState([])
   const [isConsulting, setIsConsulting] = useState(false)
   const [currentRecipe, setCurrentRecipe] = useState(null)
-
-  useEffect(() => {
-    if (currentRecipe) console.log(currentRecipe)
-  }, [currentRecipe])
 
   useEffect(() => {
     FamilyService.getRecipes(localStorage.getItem('family_id'))

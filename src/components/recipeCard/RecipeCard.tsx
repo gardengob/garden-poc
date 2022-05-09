@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { useEffect } from 'react'
 import css from './RecipeCard.module.scss'
 
 export default function RecipeCard(recipe: any) {

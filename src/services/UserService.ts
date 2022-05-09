@@ -60,7 +60,6 @@ class UserService {
       }
 
       if (data) {
-        console.log(data)
         return data
       }
     } catch (error) {

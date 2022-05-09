@@ -275,7 +275,6 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
           closeElement = element.component
           notCloseToAnyThing = false
           camMovMode
-          console.log('pas loin de ', element)
           SpaceEntryService.setNearElement(element.component.name)
 
           //ACTION : in front of element
@@ -284,7 +283,6 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     }
     if (notCloseToAnyThing && closeElement !== null) {
       closeElement = null
-      console.log('exit ')
       SpaceEntryService.setNearElement(null)
       //ACTION : not front of element
     }
@@ -297,11 +295,6 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     //   (camPosIndex.y * 0.6) / 0.4 / 10000
     // )
     const curvPercent = camPosIndex.y / 10000
-
-    // console.log(
-    //   'curve percent',
-    //   Math.round((camPosIndex.y / 10000) * 100) / 100
-    // )
 
     cube.position.set(camPosTarget.x, camPosTarget.y, camPosTarget.z)
 
