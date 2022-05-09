@@ -1,0 +1,30 @@
+@import '../../styles/references';
+
+.root {
+  position: fixed;
+  z-index: 1;
+
+  width: 100%;
+  padding: 12px 24px;
+
+  color: white;
+  background-color: #4b6659;
+
+  .list {
+    display: flex;
+    list-style-type: none;
+
+    .link {
+      color: white;
+
+      &:not(:last-child) {
+        margin-right: 24px;
+      }
+
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+    }
+  }
+}
