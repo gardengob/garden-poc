@@ -17,15 +17,23 @@ export default function Home() {
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
-
-    UserService.getProfile().then((profile) => {
-      setUsername(profile.username)
-    })
   }, [])
+
+  useEffect(() => {
+    if (session) {
+      UserService.getProfile().then((profile) => {
+        setUsername(profile.username)
+      })
+    }
+  }, [session])
 
   return (
     <div className={css.container} style={{ padding: '100px 50px' }}>
-      <h1>Bienvenue {username},</h1>
+      {!session ? (
+        <Auth />
+      ) : (
+        <Account key={session.user.id} session={session} />
+      )}
     </div>
   )
 }

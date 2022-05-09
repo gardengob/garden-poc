@@ -35,6 +35,7 @@ export default function Account({ session }) {
 
   return (
     <div className={css.root}>
+      <h1>Bienvenue {username},</h1>
       {/* <Avatar
         url={avatar_url}
         size={150}
