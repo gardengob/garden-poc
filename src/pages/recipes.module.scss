@@ -1,7 +1,20 @@
 .root {
-  .family {
+  display: flex;
+  justify-content: space-between;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .column {
+    width: 45%;
+  }
+
+  .recipe {
     cursor: pointer;
-    width: fit-content;
     list-style-type: none;
     padding: 12px;
     border: 1px solid #4b6659;
