@@ -100,7 +100,7 @@ export class Scene implements IUpdatable {
     return pathPoints
   }
 
-  getPoints(): Object3D[] {
+  assignPoints(): Object3D[] {
     const camPoints = []
     this.sceneBase.traverse((obj) => {
       if (
